@@ -37,19 +37,26 @@ class BookController(
     }
 
     @GetMapping("/books")
-    fun findAll(): ResponseEntity<List<BookResource>> = bookService.findAll().let {
-        ResponseEntity.ok(it.map { BookResource.of(it) })
-    }
+    fun findAll(): ResponseEntity<List<BookResource>> = bookService.findAll()
+        .fold({
+            ResponseEntity.notFound().build()
+        }) {
+            ResponseEntity.ok(it.map { BookResource.of(it) })
+        }
 
     @PostMapping("/books")
-    fun save(@RequestBody book: BookResource): ResponseEntity<Unit> {
-        bookService.save(book.toDomain())
-        return ResponseEntity.accepted().build()
-    }
+    fun save(@RequestBody book: BookResource): ResponseEntity<Unit> =
+        bookService.save(book.toDomain()).fold({
+            ResponseEntity.internalServerError().build()
+        }) {
+            ResponseEntity.accepted().build()
+        }
 
     @GetMapping("/books/{isbn}")
     fun findByISBN(@PathVariable isbn: String): ResponseEntity<BookResource> =
-        bookService.findByISBN(ISBN(isbn)).let {
+        bookService.findByISBN(ISBN(isbn)).fold({
+            ResponseEntity.notFound().build()
+        }) {
             ResponseEntity.ok(BookResource.of(it))
         }
 }

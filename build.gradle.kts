@@ -22,6 +22,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation(platform("io.arrow-kt:arrow-stack:1.2.1"))
+    implementation("io.arrow-kt:arrow-core")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

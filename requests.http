@@ -1,0 +1,16 @@
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Test",
+  "isbn": "2828-2828-2828-2828",
+  "category": "NonFiction"
+}
+
+###
+GET http://localhost:8080/books/2828-2828-2828-2828
+Content-Type: application/json
+
+###
+GET http://localhost:8080/books
+Content-Type: application/json
